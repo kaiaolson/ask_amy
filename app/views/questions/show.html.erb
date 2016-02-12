@@ -1,0 +1,62 @@
+<h1><%= @question.title %></h1>
+<h3>Category: <%= @question.category_name%></h3>
+<p>Created by: <%= @question.user_full_name %></p>
+
+<p><%= @question.body %></p>
+
+<p><%= @question.created_at %></p>
+
+<p>View Count:
+  <%= @question.view_count %>
+</p>
+
+<% if can? :edit, @question %>
+<%= link_to "Edit", edit_question_path(@question) %>
+<% end %>
+
+<% if can? :destroy, @question %>
+<%= link_to "Delete", question_path(@question), method: :delete, data: {confirm: "Are you sure"} %>
+<% end %>
+
+<h2>Answers</h2>
+<p><%= notice %></p>
+
+<% @question.answers.each do |ans|%>
+  <%= ans.body %><br>
+  Created by: <%= ans.user_full_name %><br>
+  <%#= link_to "Delete", question_answer_path(@question, ans),
+                        method: :delete,
+                        data: {confirm: "Are you sure?"}%>
+
+  <% if can? :edit, ans %>
+  <%= link_to "Edit", edit_question_answer_path(@question, ans) %>
+  <% end %>
+
+  <% if can? :destroy, ans %>
+  <%= link_to "Delete", question_answer_path(@question, ans), method: :delete, data: {confirm: "Are you sure"} %>
+  <% end %>
+  <hr>
+<% end %>
+
+<h3>Create an Answer</h3>
+
+<%= @answer.errors.full_messages.join(", ") %>
+
+<%# we can use the form after overriding th url parameter. the downside to it
+is that it own't work for edit situation - only for create. so we can't
+reuse it if we decide to implement editing answers %>
+<%#= form_for @answer, url: question_answers_path(@question) do |f| %>
+<%# end %>
+
+<%# passing an arry to the form_for is a better approach for creating nested
+resources. this approach will work for both new and edit situations. so if
+@answer is not persisted it will send a POST request to
+question_answers_path(@question). and if @answer is persisted it will send a
+PATCH request to question_answer_path(@question, @answer)  %>
+<%= form_for [@question, @answer] do |f| %>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <%= f.submit %>
+<% end %>

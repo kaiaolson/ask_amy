@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AwesomeAnswers</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<!-- <a href="/hello">Hello</a> |
+<a href="/about">About</a> | -->
+<%# hello_path & about_path are called route helpers. They get generated from
+    the content of `routes.rb` and they are methods that can be used in
+    all view files and all controllers %>
+<a href="<%= hello_path %>">Hello</a> |
+<a href="<%= about_path %>">About</a> |
+<a href="<%= greet_path('Kaia') %>">Greet Kaia</a> |
+<!-- put in hash if you have to pass it multiple params later on -->
+<!-- <a href="<%= greet_path({name: 'John'}) %>">Greet John</a> | -->
+
+<!-- <%= link_to "Hello", hello_path %> | -->
+<%= link_to "Subscribe", subscribe_path %> |
+<%= link_to "All Questions", questions_path %> |
+<%= link_to "New Question", new_question_path %> |
+
+<% if user_signed_in? %>
+  Hello <%= current_user.first_name %> |
+  <%= link_to "Log Out", sessions_path, method: :delete, data: {confirm: "Are you sure"} %> |
+<% else %>
+  <%= link_to "Log In", new_session_path %> | 
+  <%= link_to "Sign Up", new_user_path %> |
+<% end %>
+
+<%= notice || alert %>
+
+<%= yield %>
+</body>
+</html>

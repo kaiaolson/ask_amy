@@ -1,0 +1,6 @@
+<h1>All Questions (<%= @questions.count %>)</h1>
+
+<% @questions.order("id").each do |question| %>
+  <p><%= link_to question.title, question_path(question) %></p>
+  <hr>
+<% end %>

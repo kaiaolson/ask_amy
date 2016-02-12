@@ -1,0 +1,8 @@
+<h1>Subscribe to our Newsletter</h1>
+
+<%# form_tag is a built in Rails view helper that enables us to generate a form the first argument is the "action" attribute. you can provide a method: attribute to make the form use any type of request including GET POST PATCH DELETE always use form_tag because it automatically adds authenticity token to protect your form%>
+<%= form_tag subscribe_path do  %>
+  <div><%= label_tag :name %><%= text_field_tag :name %></div>
+  <div><%= label_tag :email %><%= email_field_tag :email %></div>
+  <div><%= submit_tag "Subscribe Now!" %></div>
+<% end %>

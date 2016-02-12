@@ -1,0 +1,22 @@
+<%= @question.errors.full_messages.join(", ") %>
+
+<%# for_for takes in an ActiveRecord object as a first argument. then it looks at the object. if the object is not persisted (not yet saved to db) The form will automatically use POST for its method. it will also automatically use 'questions_path' as its action (convention is that the questions_path will submit to the 'create' action) %>
+<%= form_for @question do |f| %>
+  <%# we call 'f' the form object %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <div>
+    <%#= To assign a value to a foreign key using a dropdown menu  %>
+    <%= f.label :category_id %>
+    <%= f.collection_select(:category_id, Category.order("name"), :id, :name) %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
