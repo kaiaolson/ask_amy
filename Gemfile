@@ -17,6 +17,12 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'faker'
 gem 'cowsay'
 gem 'cancancan'
+gem 'font-awesome-rails'
+gem 'delayed_job_active_record'
+gem 'delayed_job_web'
+gem 'quiet_assets'
+
+gem 'letter_opener' , :group => :development
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -38,6 +44,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 # these specify gems that are only used in development/production
 
+gem 'rails_12factor', group: :production
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -46,6 +54,8 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+
+  gem 'rails-erd'
 
   # these gems are used for nicer display in the rails console
   gem 'awesome_print'

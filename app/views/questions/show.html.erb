@@ -9,6 +9,45 @@
 <p>View Count:
   <%= @question.view_count %>
 </p>
+<p>Likes: <%= @question.likes.count %></p>
+<p>Favorites: <%= @question.favorites.count %></p>
+<p>Tags: <%= @question.tag_names.join(", ")%></p>
+<hr>
+
+<% vote = @question.vote_for(current_user) %>
+<% if !vote %>
+  <%= link_to fa_icon("arrow-up"), question_votes_path(@question, {vote: {is_up: true}}), method: :post, style: "font-size: 35px;" %>
+  (<%= @question.vote_result %>)
+  <%= link_to fa_icon("arrow-down"), question_votes_path(@question, {vote: {is_up: false}}), method: :post, style: "font-size: 35px;" %>
+<% elsif vote.is_up? %>
+  <%= link_to fa_icon("times"), question_vote_path(@question, vote), method: :delete, style: "font-size: 35px;" %>
+  (<%= @question.vote_result %>)
+  <%= link_to fa_icon("arrow-down"), question_vote_path(@question, vote, {vote: {is_up: false}}), method: :patch, style: "font-size: 35px;" %>
+<% else %>
+  <%= link_to fa_icon("arrow-up"), question_vote_path(@question, vote, {vote: {is_up: true}}), method: :patch, style: "font-size: 35px;" %>
+  (<%= @question.vote_result %>)
+  <%= link_to fa_icon("times"), question_vote_path(@question, vote), method: :delete, style: "font-size: 35px;" %>
+<% end %>
+
+<%# this is the like object for the current_user and @question  %>
+<% like = @question.like_for(current_user) %>
+<% if like %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-thumbs-down' style='font-size:30px'></span>")), question_like_path(@question, like), method: :delete %>
+<%= link_to fa_icon("thumbs-up"), question_like_path(@question, like), method: :delete, style: "font-size: 35px;" %>
+<% else %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-thumbs-up' style='font-size:30px'></span>")), question_likes_path(@question), method: :post%>
+<%= link_to fa_icon("thumbs-o-up"), question_likes_path(@question), method: :post,  style: "font-size: 35px;"%>
+<% end %>
+
+<% favorite = @question.favorite_for(current_user) %>
+<% if favorite %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-remove' style='font-size:30px'></span>")), question_favorite_path(@question, favorite), method: :delete %>
+<%= link_to fa_icon("heart"), question_favorite_path(@question, favorite), method: :delete, style: "font-size: 35px;" %>
+<% else %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-heart' style='font-size:30px'></span>")), question_favorites_path(@question), method: :post %>
+<%= link_to fa_icon("heart-o"), question_favorites_path(@question), method: :post, style: "font-size: 35px;" %>
+<% end %>
+<hr>
 
 <% if can? :edit, @question %>
 <%= link_to "Edit", edit_question_path(@question) %>
@@ -18,29 +57,19 @@
 <%= link_to "Delete", question_path(@question), method: :delete, data: {confirm: "Are you sure"} %>
 <% end %>
 
-<h2>Answers</h2>
-<p><%= notice %></p>
-
-<% @question.answers.each do |ans|%>
-  <%= ans.body %><br>
-  Created by: <%= ans.user_full_name %><br>
-  <%#= link_to "Delete", question_answer_path(@question, ans),
-                        method: :delete,
-                        data: {confirm: "Are you sure?"}%>
-
-  <% if can? :edit, ans %>
-  <%= link_to "Edit", edit_question_answer_path(@question, ans) %>
-  <% end %>
-
-  <% if can? :destroy, ans %>
-  <%= link_to "Delete", question_answer_path(@question, ans), method: :delete, data: {confirm: "Are you sure"} %>
-  <% end %>
-  <hr>
-<% end %>
-
 <h3>Create an Answer</h3>
 
-<%= @answer.errors.full_messages.join(", ") %>
+<div id="answer-form">
+  <%= render "/answers/form" %>
+</div>
+
+<h2>Answers</h2>
+
+<div class="answers">
+  <% @question.answers.each do |ans|%>
+    <%= render "/answers/answer", answer: ans %>
+  <% end %>
+</div>
 
 <%# we can use the form after overriding th url parameter. the downside to it
 is that it own't work for edit situation - only for create. so we can't
@@ -53,10 +82,10 @@ resources. this approach will work for both new and edit situations. so if
 @answer is not persisted it will send a POST request to
 question_answers_path(@question). and if @answer is persisted it will send a
 PATCH request to question_answer_path(@question, @answer)  %>
-<%= form_for [@question, @answer] do |f| %>
-  <div>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-  </div>
-  <%= f.submit %>
-<% end %>
+<%#= form_for [@question, @answer], remote: true do |f| %>
+  <!-- <div> -->
+    <%#= f.label :body %>
+    <%#= f.text_area :body %>
+  <!-- </div> -->
+  <%#= f.submit %>
+<%# end %>

@@ -1,0 +1,6 @@
+// j is a helper methdo from Rails to escape the JS so it doesn't break with quotes or new line characters
+$('.answers').prepend('<%= j render "answer", answer: @answer %>')
+// clears the input field for creating an answer
+// $('#answer_body').val("");
+<% @answer = Answer.new %>
+$("#answer-form").html("<%= j render 'form' %>");

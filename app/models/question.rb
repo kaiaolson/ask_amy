@@ -10,6 +10,19 @@ class Question < ActiveRecord::Base
   # joins tables - comments has a many to one relationsip with answers
   has_many :comments, through: :answers
 
+  has_many :likes, dependent: :destroy
+  # establishes many to many relationship through likes; does a SQL join statement to connect tables
+  has_many :users, through: :likes
+
+  has_many :favorites, dependent: :destroy
+  has_many :users, through: :favorites
+
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
+  has_many :votes, dependent: :destroy
+  has_many :voting_users, through: :votes, source: :user
+
   # this will fail validation (so it won't create or save) if the title is not provided and if it is not unique
   validates :title, presence: true, uniqueness: { case_sensitive: false }, length: {minimum: 3, maximum: 255 }
   # set custom message for error
@@ -52,6 +65,26 @@ class Question < ActiveRecord::Base
   # delegate :full_name, to: :user, prefix: true
   def user_full_name
     user.full_name if user
+  end
+
+  def like_for(user)
+    likes.find_by_user_id user
+  end
+
+  def favorite_for(user)
+    favorites.find_by_user_id user
+  end
+
+  def tag_names
+    tags.map {|tag| tag.name}
+  end
+
+  def vote_for(user)
+    votes.find_by_user_id user
+  end
+
+  def vote_result
+    votes.up_count - votes.down_count
   end
 
   private

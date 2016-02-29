@@ -1,7 +1,9 @@
-<%= form_for [@question, @answer] do |f| %>
-  <div>
+<%= @answer.errors.full_messages.join(", ") %>
+
+<%= form_for [@question, @answer], remote: true do |f| %>
+  <div class="form-group">
     <%= f.label :body %>
-    <%= f.text_area :body %>
+    <%= f.text_area :body, class: "form-control" %>
   </div>
-  <%= f.submit %>
+  <%= f.submit class: "btn btn-primary" %>
 <% end %>

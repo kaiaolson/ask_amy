@@ -1,13 +1,25 @@
 class User < ActiveRecord::Base
+
+  has_many :questions, dependent: :nullify
+  has_many :answers, dependent: :nullify
+
+  has_many :likes, dependent: :destroy
+  # if just used "questions", it would confuse Rails, so change it to liked_questions
+  # to use unconventional naming, add source so it knows where it's coming from
+  has_many :liked_questions, through: :likes, source: :question
+
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_questions, through: :favorites, source: :question
+
+  has_many :votes, dependent: :destroy
+  has_many :voted_questions, through: :votes, source: :question
+
   # attr_accessor :password
   # attr_accessor :password_confirmation
 
   # more info about has_secure_password can be found here:
   # http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html
   has_secure_password
-
-  has_many :questions, dependent: :nullify
-  has_many :answers, dependent: :nullify
 
   validates :password, length: {minimum: 6}, on: :create
   validates :first_name, presence: true

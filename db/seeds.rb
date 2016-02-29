@@ -3,12 +3,16 @@
 #
 
 
-100.times do
-  q = Question.create title: Faker::Company.bs,
-                      body: Faker::Lorem.paragraph,
-                      view_count: rand(100)
-  10.times do
-    a = q.answers.create(body: Faker::Company.catch_phrase)
-    5.times {a.comments.create(body: Faker::Company.bs)}
-  end
+# 100.times do
+#   q = Question.create title: Faker::Company.bs,
+#                       body: Faker::Lorem.paragraph,
+#                       view_count: rand(100)
+#   10.times do
+#     a = q.answers.create(body: Faker::Company.catch_phrase)
+#     5.times {a.comments.create(body: Faker::Company.bs)}
+#   end
+# end
+
+["Coffee","Hockey","Snow","Bao Buns","Money"].each do |tag|
+  Tag.create(name: tag)
 end

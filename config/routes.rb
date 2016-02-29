@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
   # main job of the routes: you map a request to a controller with an action
   get "/hello" => "welcome#index"
   get "/about" => "welcome#about"
@@ -33,7 +35,13 @@ Rails.application.routes.draw do
     # this enables us to have the question_id handy so we can create the answer
     # associated with a question with question_id
     resources :answers, only: [:create, :edit, :update, :destroy]
+
+    resources :likes, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy]
+    resources :votes, only: [:create, :update, :destroy]
   end
+
+  resources :favorites, only: [:index]
 
   # do this to avoid triple nesting comments under resources :answers within
   # the resources :questions, as it will be very cumbersome to generate routes
@@ -53,7 +61,7 @@ Rails.application.routes.draw do
 
   # this does everything above.
   resources :questions
-  root "questions#index"
+  root "welcome#index"
 
 
 

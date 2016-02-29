@@ -11,5 +11,50 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require font-awesome
  *= require_self
  */
+
+ body {
+   margin-top: 50px;
+ }
+ h2 {
+   padding-top: -75px;
+   margin-top: 75px;
+ }
+ .navbar-brand {
+   font-size: 20px;
+   padding-left: 30px;
+   color: #fff !important;
+ }
+ a.navbar-left img {
+   padding-top: 10px;
+   width:30px;
+ }
+ span.glyphicon {
+   font-size: 3em;
+ }
+ .row > div {
+   padding:20px;
+ }
+ .img-circle {
+   width:200px;
+   height:200px;
+   border: 10px darkgrey solid;
+ }
+ .grey-background {
+   background-color: lightgrey;
+ }
+ input, textarea {
+   max-width: 400px;
+ }
+ #map {
+   width: 100%;
+   height: 400px;
+ }
+ footer {
+   margin: 20px 0px;
+ }
+ footer a {
+   font-size: 30px;
+ }

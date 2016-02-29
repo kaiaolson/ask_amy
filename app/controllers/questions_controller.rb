@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    @questions = Question.all
+    @questions = Question.order("updated_at DESC")
   end
 
   def edit
@@ -53,7 +53,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, :category_id)
+    params.require(:question).permit(:title, :body, :category_id, {tag_ids: []})
   end
 
   def find_question

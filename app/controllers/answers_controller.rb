@@ -8,10 +8,17 @@ class AnswersController < ApplicationController
     @answer = Answer.new answer_params
     @answer.question = @question
     @answer.user = current_user
-    if @answer.save
-      redirect_to question_path(@question), notice: "Answer created!"
-    else
-      render "/questions/show", alert: "Answer not created!"
+    respond_to do |format|
+      if @answer.save
+        # AnswersMailer.notify_question_owner(@answer).deliver_later
+        # indicates what to do if in html format
+        format.html { redirect_to question_path(@question), notice: "Answer created!" }
+        # indicates what to do if in js format
+        format.js   { render :create_success }
+      else
+        format.html { render "/questions/show", alert: "Answer not created!" }
+        format.js   { render :create_failure }
+      end
     end
   end
 
