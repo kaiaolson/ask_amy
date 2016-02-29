@@ -36,7 +36,10 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_path(params[:question_id]), notice: "Answer deleted!"
+    respond_to do |format|
+      format.html { redirect_to question_path(params[:question_id]), notice: "Answer deleted!"}
+      format.js { render } # this renders app/views/answers/destroy.js.erb
+    end
   end
 
   private

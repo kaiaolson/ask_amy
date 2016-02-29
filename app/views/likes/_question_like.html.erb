@@ -1,0 +1,15 @@
+<%# this is the like object for the current_user and @question  %>
+<% like = @question.like_for(current_user) %>
+<% if like %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-thumbs-down' style='font-size:30px'></span>")), question_like_path(@question, like), method: :delete %>
+<%= link_to fa_icon("thumbs-up"), question_like_path(@question, like),
+                                  method: :delete,
+                                  remote: true,
+                                  style: "font-size: 35px;" %>
+<% else %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-thumbs-up' style='font-size:30px'></span>")), question_likes_path(@question), method: :post%>
+<%= link_to fa_icon("thumbs-o-up"), question_likes_path(@question),
+                                    method: :post,
+                                    remote: true,
+                                    style: "font-size: 35px;"%>
+<% end %>

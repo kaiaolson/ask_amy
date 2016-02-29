@@ -1,0 +1,15 @@
+<% favorite = @question.favorite_for(current_user) %>
+<% if favorite %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-remove' style='font-size:30px'></span>")), question_favorite_path(@question, favorite), method: :delete %>
+<%= link_to fa_icon("heart"), question_favorite_path(@question, favorite),
+                              method: :delete,
+                              remote: true,
+                              style: "font-size: 35px;" %>
+<% else %>
+<%#= link_to (raw("<span class='glyphicon glyphicon-heart' style='font-size:30px'></span>")), question_favorites_path(@question), method: :post %>
+<%= link_to fa_icon("heart-o"), question_favorites_path(@question),
+                                method: :post,
+                                remote: true,
+                                style: "font-size: 35px;" %>
+<% end %>
+<hr>

@@ -1,10 +1,15 @@
-<%= answer.body %><br>
-Created by: <%= answer.user_full_name %><br>
-<% if can? :edit, answer %>
-<%= link_to "Edit", edit_question_answer_path(@question, answer) %>
-<% end %>
+<%# dom_id generates an id that can be used on the page that helpers identify this div uniquely
+will be in the format model_name_id - e.g. answer_4 %>
 
-<% if can? :destroy, answer %>
-<%= link_to "Delete", question_answer_path(@question, answer), method: :delete, data: {confirm: "Are you sure"} %>
-<% end %>
-<hr>
+<div id="<%= dom_id(answer) %>">
+  <%= answer.body %><br>
+  Created by: <%= answer.user_full_name %><br>
+  <% if can? :edit, answer %>
+  <%= link_to "Edit", edit_question_answer_path(@question, answer) %>
+  <% end %>
+
+  <% if can? :destroy, answer %>
+  <%= link_to "Delete", question_answer_path(@question, answer), method: :delete, remote: true, data: {confirm: "Are you sure"} %>
+  <% end %>
+  <hr>
+</div>

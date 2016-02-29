@@ -2,5 +2,8 @@
 $('.answers').prepend('<%= j render "answer", answer: @answer %>')
 // clears the input field for creating an answer
 // $('#answer_body').val("");
+
+// create a new answer because it persisted from the previous if there were errors; but we want to create a new answer
+// rather than update existing
 <% @answer = Answer.new %>
 $("#answer-form").html("<%= j render 'form' %>");

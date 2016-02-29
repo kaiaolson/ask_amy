@@ -29,25 +29,13 @@
   <%= link_to fa_icon("times"), question_vote_path(@question, vote), method: :delete, style: "font-size: 35px;" %>
 <% end %>
 
-<%# this is the like object for the current_user and @question  %>
-<% like = @question.like_for(current_user) %>
-<% if like %>
-<%#= link_to (raw("<span class='glyphicon glyphicon-thumbs-down' style='font-size:30px'></span>")), question_like_path(@question, like), method: :delete %>
-<%= link_to fa_icon("thumbs-up"), question_like_path(@question, like), method: :delete, style: "font-size: 35px;" %>
-<% else %>
-<%#= link_to (raw("<span class='glyphicon glyphicon-thumbs-up' style='font-size:30px'></span>")), question_likes_path(@question), method: :post%>
-<%= link_to fa_icon("thumbs-o-up"), question_likes_path(@question), method: :post,  style: "font-size: 35px;"%>
-<% end %>
+<div id="question-like">
+  <%= render "/likes/question_like" %>
+</div>
 
-<% favorite = @question.favorite_for(current_user) %>
-<% if favorite %>
-<%#= link_to (raw("<span class='glyphicon glyphicon-remove' style='font-size:30px'></span>")), question_favorite_path(@question, favorite), method: :delete %>
-<%= link_to fa_icon("heart"), question_favorite_path(@question, favorite), method: :delete, style: "font-size: 35px;" %>
-<% else %>
-<%#= link_to (raw("<span class='glyphicon glyphicon-heart' style='font-size:30px'></span>")), question_favorites_path(@question), method: :post %>
-<%= link_to fa_icon("heart-o"), question_favorites_path(@question), method: :post, style: "font-size: 35px;" %>
-<% end %>
-<hr>
+<div id="question-favorite">
+  <%= render "/favorites/question_favorite" %>
+</div>
 
 <% if can? :edit, @question %>
 <%= link_to "Edit", edit_question_path(@question) %>
@@ -66,8 +54,8 @@
 <h2>Answers</h2>
 
 <div class="answers">
-  <% @question.answers.each do |ans|%>
-    <%= render "/answers/answer", answer: ans %>
+  <% @question.answers.each do |answer|%>
+    <%= render "/answers/answer", answer: answer %>
   <% end %>
 </div>
 
