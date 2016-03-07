@@ -28,10 +28,19 @@ class QuestionsController < ApplicationController
     @question.view_count += 1
     @question.save
     @answer = Answer.new
+    @answers = @question.answers
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @question }
+    end
   end
 
   def index
-    @questions = Question.order("updated_at DESC")
+    @questions = Question.all
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @questions.select(:id, :title, :view_count) }
+    end
   end
 
   def edit

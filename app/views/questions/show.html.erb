@@ -47,9 +47,11 @@
 
 <h3>Create an Answer</h3>
 
+<% if can? :create, Answer %>
 <div id="answer-form">
   <%= render "/answers/form" %>
 </div>
+<% end %>
 
 <h2>Answers</h2>
 

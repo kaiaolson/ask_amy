@@ -26,6 +26,11 @@ class AnswersController < ApplicationController
     @question = @answer.question
   end
 
+  def index
+    @question = Question.find params[:question_id]
+    render json: @question.answers
+  end
+
   def update
     if @answer.update answer_params
       redirect_to question_path(@answer.question)

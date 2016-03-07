@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     # will define all the answers route prepended with /questions/question_id
     # this enables us to have the question_id handy so we can create the answer
     # associated with a question with question_id
-    resources :answers, only: [:create, :edit, :update, :destroy]
+    resources :answers, only: [:create, :edit, :update, :destroy, :index]
 
     resources :likes, only: [:create, :destroy]
     resources :favorites, only: [:create, :destroy]
@@ -63,7 +63,11 @@ Rails.application.routes.draw do
   resources :questions
   root "welcome#index"
 
-
+  namespace :api do
+    namespace :v1 do
+      resources :questions, only: [:index, :show]
+    end
+  end
 
   # this will map any GET request with path "/hello" to WelcomeController and
   # index action within that controller

@@ -21,6 +21,8 @@ gem 'font-awesome-rails'
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 gem 'quiet_assets'
+gem 'rack-cors', :require => 'rack/cors'
+gem 'active_model_serializers'
 
 gem 'letter_opener' , :group => :development
 
