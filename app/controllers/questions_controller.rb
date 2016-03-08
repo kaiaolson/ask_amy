@@ -1,9 +1,7 @@
 class QuestionsController < ApplicationController
   # runs find_question before any action so we don't have to find the question over and over
   before_action :find_question, only: [:show, :edit, :update, :destroy]
-
   before_action :authenticate_user, except: [:index, :show]
-
   before_action :authorize_user, only: [:edit, :update, :destroy]
 
   def new
@@ -16,6 +14,15 @@ class QuestionsController < ApplicationController
     @question = Question.new question_params
     @question.user = current_user
     if @question.save
+      if @question.tweet_it
+        client = Twitter::REST::Client.new do |config|
+          config.consumer_key        = ENV["twitter_consumer_key"]
+          config.consumer_secret     = ENV["twitter_consumer_secret"]
+          config.access_token        = "YOUR_ACCESS_TOKEN"
+          config.access_token_secret = "YOUR_ACCESS_SECRET"
+        end
+        client.update("New Question: #{@question.title}")
+      end
       redirect_to question_path(@question)
     else
       # this will render app/views/questions/new.html.erb template
@@ -62,7 +69,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, :category_id, {tag_ids: []})
+    params.require(:question).permit(:title, :body, :category_id, :tweet_it, {tag_ids: []})
   end
 
   def find_question

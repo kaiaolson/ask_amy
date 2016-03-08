@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
                     unless: :from_oauth?
 
   def from_oauth?
-    uid.present? && provider.present?
+    uid.present? && provider.present? && provider == "twitter"
   end
 
   def full_name
@@ -71,11 +71,4 @@ class User < ActiveRecord::Base
     # end while User.exists?(api_key: self.api_key)
   end
 
-  user = User.last
-  client = Twitter::REST::Client.new do |config|
-    config.consumer_key        = ENV["twitter_consumer_key"]
-    config.consumer_secret     = ENV["twitter_consumer_secret"]
-    config.access_token        = "YOUR_ACCESS_TOKEN"
-    config.access_token_secret = "YOUR_ACCESS_SECRET"
-  end
 end

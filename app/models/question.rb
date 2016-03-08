@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
+  attr_accessor :tweet_it #to make an attribute accessible if not in the model
+
   belongs_to :category
   belongs_to :user
   # this will establish a has many association with answer. this assumes that your answer model has a question_id integer field
