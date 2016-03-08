@@ -23,6 +23,8 @@ gem 'delayed_job_web'
 gem 'quiet_assets'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'active_model_serializers'
+gem 'omniauth-twitter'
+gem 'twitter'
 
 gem 'letter_opener' , :group => :development
 
@@ -51,6 +53,7 @@ gem 'rails_12factor', group: :production
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails'
 end
 
 group :development do

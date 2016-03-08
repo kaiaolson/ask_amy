@@ -65,9 +65,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :questions, only: [:index, :show]
+      resources :questions, only: [:index, :show, :create]
     end
   end
+
+  get "/auth/twitter", as: :sign_in_with_twitter
+  get "/auth/twitter/callback" => "callbacks#twitter"
 
   # this will map any GET request with path "/hello" to WelcomeController and
   # index action within that controller

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219225321) do
+ActiveRecord::Schema.define(version: 20160308180433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,10 +123,19 @@ ActiveRecord::Schema.define(version: 20160219225321) do
     t.string   "last_name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "admin",           default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "admin",            default: false
+    t.string   "api_key"
+    t.string   "uid"
+    t.string   "provider"
+    t.string   "twitter_token"
+    t.string   "twitter_secret"
+    t.text     "twitter_raw_data"
   end
+
+  add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree
+  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", using: :btree
 
   create_table "votes", force: :cascade do |t|
     t.integer  "question_id"
